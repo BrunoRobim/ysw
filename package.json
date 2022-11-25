@@ -1,0 +1,34 @@
+{
+  "name": "minimal_node_api",
+  "version": "1.0.0",
+  "description": "Minimal nodejs + express REST api",
+  "main": "src/app.ts",
+  "author": "Bruno Robim",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "prisma": "^4.6.1",
+    "@prisma/client": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.14",
+    "@types/node": "^18.7.18",
+    "concurrently": "^7.4.0",
+    "nodemon": "^2.0.20",
+    "prettier": "2.7.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.8.3"
+  },
+  "scripts": {
+    "ts": "npx tsc --init",
+    "dev": "yarn generate && ts-node-dev --files src/app.ts",
+    "generate": "prisma generate",
+    "dbpull": "prisma db pull",
+    "dbpush": "prisma db push",
+    "studio": "prisma studio",
+    "migrate": "prisma migrate dev init --name",
+    "build": "yarn dbpull && yarn generate && tsc -p tsconfig.json",
+    "start": "NODE_ENV=production node dist/app.js"
+  }
+}
