@@ -6,6 +6,13 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
+// Kill all the child process, ts-node-dev needs this to reload after a save
+// while using prisma orm
+process.on('SIGTERM', () => {
+  process.exit();
+});
+
+app.use(express.json({ limit: '200mb' }), router);
 app.listen(port, () => {
   console.log(
     'server running in port:',
@@ -13,5 +20,3 @@ app.listen(port, () => {
     `\nAPI URL:  http://localhost:${port}/`
   );
 });
-
-app.use(express.json({ limit: '200mb' }), router);

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,10 +7,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model estrutura {
-  id_estrutura String   @id @default(uuid()) @db.VarChar(150)
-  nome         String?  @db.VarChar(150)
-  descricao    String?  @db.VarChar(150)
+model structure {
+  id_structure String   @id @default(uuid()) @db.VarChar(150)
+  name         String?  @unique @db.VarChar(150)
+  description  String?  @db.VarChar(150)
   created_at   DateTime @default(now()) @db.DateTime(0)
   updated_at   DateTime @default(now()) @updatedAt @db.DateTime(0)
+  tags         tag[]
+}
+
+model tag {
+  id_tag                String     @id @default(uuid()) @db.VarChar(150)
+  epc                   String?    @db.VarChar(200)
+  serial_number         String?    @db.VarChar(200)
+  name                  String?    @db.VarChar(150)
+  localization          String?    @db.VarChar(200)
+  created_at            DateTime   @default(now()) @db.DateTime(0)
+  updated_at            DateTime   @default(now()) @updatedAt @db.DateTime(0)
+  structureId_structure String?    @db.VarChar(150)
+  structure             structure? @relation(fields: [structureId_structure], references: [id_structure])
+
+  @@index([structureId_structure], map: "tag_structureId_structure_fkey")
+}
+
+model user {
+  id_user String  @id @default(uuid()) @db.VarChar(150)
+  name    String  @db.VarChar(150)
+  email   String  @db.VarChar(200)
+  pass    String  @db.VarChar(50)
+  manager String? @db.VarChar(150)
 }
